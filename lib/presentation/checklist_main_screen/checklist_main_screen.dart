@@ -41,30 +41,42 @@ class _ChecklistMainScreenState extends State<ChecklistMainScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    for (final checklistName in state.checklistNames)
-                      SingleChecklist(checklistName: checklistName),
+                    for (int i = 0; i < state.checklistNames.length; ++i)
+                      SingleChecklist(
+                        checklistName: state.checklistNames[i],
+                        isLastOne: i == state.checklistNames.length - 1, 
+                      ),
                     const SizedBox(height: 20),
-                    if (state.isChecklistTextFieldOpen)
-                      ChecklistTextField(
-                        onTapOutside: () {
-                          _focusNode.unfocus();
-                          _checklistBloc.add(CloseChecklistTextFieldEvent());
-                          _controller.clear();
-                        },
-                        controller: _controller,
-                        focusNode: _focusNode,
-                        onAdd: (checklistName) {
-                          _checklistBloc.add(
-                              AddChecklistEvent(checklistName: checklistName));
-                          _controller.clear();
-                        },
-                      )
-                    else
-                      AddChecklistButton(
-                        onAdd: () {
-                          _checklistBloc.add(OpenChecklistTextFieldEvent());
-                        },
-                      )
+                    AnimatedContainer(
+                      height: state.isChecklistTextFieldOpen ? 60 : 40,
+                      width: state.isChecklistTextFieldOpen
+                          ? MediaQuery.of(context).size.width
+                          : 50,
+                      curve: Curves.easeInOut,
+                      duration: const Duration(seconds: 1),
+                      child: state.isChecklistTextFieldOpen
+                          ? ChecklistTextField(
+                              onTapOutside: () {
+                                _focusNode.unfocus();
+                                _checklistBloc
+                                    .add(CloseChecklistTextFieldEvent());
+                                _controller.clear();
+                              },
+                              controller: _controller,
+                              focusNode: _focusNode,
+                              onAdd: (checklistName) {
+                                _checklistBloc.add(AddChecklistEvent(
+                                    checklistName: checklistName));
+                                _controller.clear();
+                              },
+                            )
+                          : AddChecklistButton(
+                              onAdd: () {
+                                _checklistBloc
+                                    .add(OpenChecklistTextFieldEvent());
+                              },
+                            ),
+                    ),
                   ],
                 ),
               );

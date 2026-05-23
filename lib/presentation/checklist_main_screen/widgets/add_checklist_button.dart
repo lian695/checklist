@@ -13,16 +13,14 @@ class AddChecklistButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           color: Colors.green,
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: Text(
-              'Add',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+        child: Center(
+          child: Text(
+            'Add',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
